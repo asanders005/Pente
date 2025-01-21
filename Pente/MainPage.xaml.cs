@@ -33,11 +33,18 @@ namespace Pente
                     int currentRow = row;
                     int currentCol = col;
 
-                    var button = new Button
+                    var button = new ImageButton
                     {
+                        HorizontalOptions = LayoutOptions.Center,
+                        VerticalOptions = LayoutOptions.Center,
                         BackgroundColor = Colors.Transparent,
+                        WidthRequest = 75,
+                        HeightRequest = 75,
+                        Opacity = 1,
                         Margin = 1
                     };
+
+                    button.Scale = 0.5;
 
                     // Add click event handler (optional)
                     button.Clicked += (s, e) =>
@@ -65,9 +72,9 @@ namespace Pente
 
         //Check if button has an image
 
-        private bool IsButtonEmpty(Button button)
+        private bool IsButtonEmpty(ImageButton button)
         {
-            if (button.ImageSource == null)
+            if (button.Source == null)
             {
                 return true;
             }
@@ -80,18 +87,22 @@ namespace Pente
             {
                 for (int col = 0; col < 19; col++)
                 {
-                    var button = (Button)GameGrid.Children.Single(b => Grid.GetRow((BindableObject)b) == row && Grid.GetColumn((BindableObject)b) == col);
+                    var button = (ImageButton)GameGrid.Children.Single(b => Grid.GetRow((BindableObject)b) == row && Grid.GetColumn((BindableObject)b) == col);
                     if (game.GameBoard.board[col, row] == true)
                     {
-                        button.ImageSource = "white.png";
+                        
+                        button.Source = "white.png";
+
+                        
+
                     }
                     else if (game.GameBoard.board[col, row] == false)
                     {
-                        button.ImageSource = "black.png";
+                        button.Source = "black.png";
                     }
                     else
                     {
-                        button.ImageSource = null;
+                        button.Source = null;
                     }
                 }
             }

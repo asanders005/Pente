@@ -40,7 +40,7 @@
     <Frame BorderColor="Black" CornerRadius="10" Padding="10">
         <Grid ColumnDefinitions="2*, 1*" RowDefinitions="Auto">
             
-            <Image Source="board.png" Aspect="AspectFit" Opacity="100"/>
+            <Image Source="board.png" Aspect="AspectFill" Opacity="100" WidthRequest="775" HeightRequest="775"/>
             <!-- Grid Section -->
             <Grid Grid.Column="0" BackgroundColor="Transparent"  x:Name="GameGrid" HeightRequest="650" WidthRequest="650">
 
