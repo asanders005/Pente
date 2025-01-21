@@ -16,5 +16,13 @@ namespace Pente.Classes
             Players = new[] { player1, player2 };
             GameBoard = new Board();
         }
+
+        public void PlaceStone(int x, int y)
+        {
+            GameBoard.PlaceStone(x, y, currentPlayer == 0);
+            currentPlayer = currentPlayer == 0 ? 1 : 0;
+        }
+
+        private int currentPlayer = 0;
     }
 }

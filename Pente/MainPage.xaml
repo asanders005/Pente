@@ -15,7 +15,7 @@
         </Grid>
     </Frame>
 
-    <!-- Middle Section -->
+    <!-- Middle Top Section -->
     <Frame BorderColor="Black" CornerRadius="10" Padding="10" BackgroundColor="IndianRed">
         <VerticalStackLayout Spacing="20" HorizontalOptions="Center">
             <HorizontalStackLayout Spacing="5" HorizontalOptions="Center" VerticalOptions="Center">
@@ -39,46 +39,21 @@
     <!-- Pyramid and Side Buttons Section -->
     <Frame BorderColor="Black" CornerRadius="10" Padding="10">
         <Grid ColumnDefinitions="2*, 1*" RowDefinitions="Auto">
-            <!-- Pyramid Section -->
-            <Grid Grid.Column="0" Padding="10" BackgroundColor="DarkRed" x:Name="GameGrid">
-                <Label Text="" VerticalOptions="Center" HorizontalOptions="Center" FontFamily="JotiOne" />
-                <Grid Padding="10">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="55" />
-                        
+            
+            <Image Source="board.png" Aspect="AspectFit" Opacity="100"/>
+            <!-- Grid Section -->
+            <Grid Grid.Column="0" BackgroundColor="Transparent"  x:Name="GameGrid" HeightRequest="650" WidthRequest="650">
 
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="55" />
-                    </Grid.ColumnDefinitions>
-
-                    <!-- Pyramid Boxes -->
-                    <Frame BorderColor="Black" CornerRadius="5" Padding="15" BackgroundColor="LightGray" Grid.Row="0" Grid.Column="3" x:Name="row1col1" />
-
-                </Grid>
             </Grid>
 
-            <!-- Side Buttons -->
-            <VerticalStackLayout Grid.Column="1" Spacing="10" VerticalOptions="Center" HorizontalOptions="Center" BackgroundColor="LightGray" WidthRequest="190">
-                <Button Text="Row 1" Clicked="Row1" TextColor="Gold" BackgroundColor="DarkRed" BorderWidth="5" 
-                                BorderColor="Black" FontFamily="JotiOne" />
-                <Button Text="Row 2" Clicked="Row2" TextColor="Gold" BackgroundColor="DarkRed" BorderWidth="5" 
-                                BorderColor="Black" FontFamily="JotiOne" />
-                <Button Text="Row 3" Clicked="Row3" TextColor="Gold" BackgroundColor="DarkRed" BorderWidth="5" 
-                                BorderColor="Black" FontFamily="JotiOne" />
-                <Button Text="Row 4" Clicked="Row4" TextColor="Gold" BackgroundColor="DarkRed" BorderWidth="5" 
-                                BorderColor="Black" FontFamily="JotiOne" />
-            </VerticalStackLayout>
+
         </Grid>
     </Frame>
 
-    <!-- Bottom Section -->
+    <!-- Left Section -->
     <Frame BorderColor="Black" CornerRadius="10" Padding="5">
         <Grid ColumnDefinitions="2*, 1*" RowDefinitions="Auto">
-            <Button Grid.Column="1" WidthRequest="120" Text="PassTurn" HorizontalOptions="End" Clicked="PassTurn" BackgroundColor="LightGray" 
-                        TextColor="Black" FontAttributes="Bold" BorderWidth="5" BorderColor="Black" FontFamily="JotiOne" />
-            <Button Grid.Column="0" WidthRequest="120" Text="New Game" HorizontalOptions="End" Clicked="NewGame" BackgroundColor="LightGray" 
-                        TextColor="Black" FontAttributes="Bold" BorderWidth="5" BorderColor="Black" FontFamily="JotiOne" />
+           
         </Grid>
     </Frame>
 
