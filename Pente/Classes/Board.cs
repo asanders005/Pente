@@ -61,9 +61,10 @@ namespace Pente.Classes
             int cY = y;
             bool? checkCapture = null;
             int consecutiveCount = 0;
-            bool quit = false;
             do
             {
+                if (x + xMod < 0 || x + xMod > 19 || y + yMod < 0 || y + yMod > 19) return new Vector2(cX, cY);
+
                 if (board[cX + xMod, cY + yMod] == null) return new Vector2(cX, cY);
 
                 if (checkCapture == null)
@@ -82,9 +83,94 @@ namespace Pente.Classes
 
                 cX += xMod;
                 cY += yMod;
-            } while (!quit);
+            } while (true);
+        }
 
+        public LineType CheckLine(int startX, int startY, LineDirection lineDirection)
+        {
+            if (board[startX, startY] == null) return LineType.NONE;
 
+            int xMod = 0, yMod = 0;
+            switch (lineDirection)
+            {
+                case LineDirection.DIAGONAL_DOWN:
+                    xMod = 1;
+                    yMod = 1;
+                    break;
+                case LineDirection.DIAGONAL_UP:
+                    xMod = 1;
+                    yMod = -1;
+                    break;
+                case LineDirection.VERTICAL:
+                    yMod = 1;
+                    break;
+                case LineDirection.HORIZONTAL:
+                    xMod = 1;
+                    break;
+            }
+            if (startX + xMod < 0 || startX + xMod > 19 || startY + yMod < 0 || startY + yMod > 19) return LineType.NONE;
+
+            if (board[startX + xMod, startY + yMod] == null) return LineType.NONE;
+
+            bool currentIsBlack = board[startX, startY] == true;
+            bool? checkCapture = null;
+            Vector2[] capCoords = new Vector2[2];
+            int cX = startX, cY = startY;
+            int currentCount = 0;
+
+            if (board[startX + xMod, startY + yMod] == currentIsBlack)
+            {
+                checkCapture = false;
+                currentCount = 1;
+            }
+            else
+            {
+                checkCapture = true;
+            }
+
+            do
+            {
+                if (startX + xMod < 0 || startX + xMod > 19 || startY + yMod < 0 || startY + yMod > 19) return LineType.NONE;
+                if (checkCapture == true)
+                {
+                    if (board[cX + xMod, cY + yMod] == null) return LineType.NONE;
+                    if (board[cX + xMod, cY + yMod] != currentIsBlack && currentCount < 2)
+                    {
+                        capCoords[currentCount] = new Vector2(cX + xMod, cY + yMod);
+                        currentCount++;
+                    }
+                    else if (board[cX + xMod, cY + yMod] == currentIsBlack && currentCount == 2)
+                    {
+                        foreach(var coordinate in capCoords)
+                        {
+                            RemoveStone((int)coordinate.X, (int)coordinate.Y);
+                        }
+                        return LineType.CAPTURE;
+                    }
+                    else return LineType.NONE;
+                }
+                else if (checkCapture == false)
+                {
+                    if (board[cX + xMod, cY + yMod] == currentIsBlack && currentCount < 5) currentCount++;
+                    else
+                    {
+                        switch (currentCount)
+                        {
+                            case 3:
+                                return LineType.TRIA;
+                            case 4:
+                                return LineType.TESSERA;
+                            case 5:
+                                return LineType.WIN;
+                            default:
+                                return LineType.NONE;
+                        }
+                    }
+                }
+
+                cX += xMod;
+                cY += yMod;
+            } while (true);
         }
 
         public void RemoveStone(int x, int y)
@@ -106,6 +192,7 @@ namespace Pente.Classes
         NONE,
         CAPTURE,
         TRIA,
-        TESSERA
+        TESSERA,
+        WIN
     }
 }

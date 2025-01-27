@@ -51,10 +51,13 @@ namespace Pente
                     {
                         if (IsButtonEmpty(button))
                         {
-                            game.PlaceStone(currentCol, currentRow);
+                            if (!game.GameOver)
+                            {
+                                game.PlaceStone(currentCol, currentRow);
 
-                            UpdateBoard();
-                            currentplayer = currentplayer == 0 ? 1 : 0;
+                                UpdateBoard();
+                                currentplayer = currentplayer == 0 ? 1 : 0;
+                            }
                         }
                     };
 
