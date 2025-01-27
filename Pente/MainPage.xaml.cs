@@ -90,11 +90,7 @@ namespace Pente
                     var button = (ImageButton)GameGrid.Children.Single(b => Grid.GetRow((BindableObject)b) == row && Grid.GetColumn((BindableObject)b) == col);
                     if (game.GameBoard.board[col, row] == true)
                     {
-                        
                         button.Source = "white.png";
-
-                        
-
                     }
                     else if (game.GameBoard.board[col, row] == false)
                     {
