@@ -12,6 +12,7 @@ namespace Pente.Classes
     {
         public Board GameBoard { get; private set; }
         public string[] Players { get; private set; }
+        public int CurrentPlayer { get; private set; } = 0;
         public NotificationType Notification { get; set; } = NotificationType.NONE;
         public bool GameOver { get; private set; } = false;
         public string? Winner { get; set; }
@@ -30,7 +31,7 @@ namespace Pente.Classes
         {
             if (!GameOver)
             {
-                GameBoard.PlaceStone(x, y, currentPlayer == 1);
+                GameBoard.PlaceStone(x, y, CurrentPlayer == 1);
                 CheckLines(x, y);
                 PassTurn();
             }
@@ -38,11 +39,12 @@ namespace Pente.Classes
 
         public void PassTurn()
         {
-            currentPlayer = currentPlayer == 0 ? 1 : 0;
+            CurrentPlayer = CurrentPlayer == 0 ? 1 : 0;
         }
 
         public void CheckLines(int x, int y)
         {
+            bool lineChecked = false;
             for (int i = 0; i < 4; i++)
             {
                 LineDirection lineToCheck = (LineDirection)i;
@@ -51,19 +53,8 @@ namespace Pente.Classes
 
                 switch (lineType)
                 {
-                    case LineType.WIN:
-                        Notification = NotificationType.WIN;
-                        GameOver = true;
-                        Winner = Players[currentPlayer];
-                        break;
-                    case LineType.TESSERA:
-                        Notification = NotificationType.TESSERA;
-                        break;
-                    case LineType.TRIA:
-                        Notification = NotificationType.TRIA;
-                        break;
                     case LineType.CAPTURE:
-                        if (currentPlayer == 0)
+                        if (CurrentPlayer == 0)
                         {
                             CapturedBlack += 2;
                         }
@@ -85,13 +76,38 @@ namespace Pente.Classes
                             Winner = Players[1];
                         }
                         break;
+                    case LineType.TRIA:
+                        if (!lineChecked || Notification == NotificationType.NONE || Notification == NotificationType.CAPTURE)
+                        {
+                            Notification = NotificationType.TRIA;
+                            lineChecked = true;
+                        }
+                        break;
+                    case LineType.TESSERA:
+                        if (!lineChecked || Notification == NotificationType.NONE || Notification == NotificationType.CAPTURE || Notification == NotificationType.TRIA)
+                        {
+                            Notification = NotificationType.TESSERA;
+                            lineChecked = true;
+                        }
+                        break;
+                    case LineType.WIN:
+                        if (!lineChecked || Notification != NotificationType.WIN)
+                        {
+                            Notification = NotificationType.WIN;
+                            GameOver = true;
+                            Winner = Players[CurrentPlayer];
+                            lineChecked = true;
+                        }
+                        break;
                     default:
+                        if (!lineChecked)
+                        {
+                            Notification = NotificationType.NONE;
+                        }
                         break;
                 }
             }
         }
-
-        private int currentPlayer = 0;
     }
 
     public enum NotificationType

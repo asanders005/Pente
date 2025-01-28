@@ -22,14 +22,14 @@ namespace Pente
         public void OnPlay(object sender, EventArgs e)
         {
             game = new Game("1", "2");
+            currentplayer = game.CurrentPlayer;
+            currentPlayerName.Text = $"{game.Players[currentplayer]}'s Turn";
             UpdateBoard();
         }
 
         public void QuitGame(object sender, EventArgs e)
         {
-
-                Application.Current.Quit();
-
+            Application.Current.Quit();
         }
 
         private void CreateButtonGrid(int rows, int columns)
@@ -80,11 +80,28 @@ namespace Pente
                                 whiteStoneCount.Text = "x " + game.CapturedWhite.ToString();
                                 blackStoneCount.Text = "x " + game.CapturedBlack.ToString();
 
-                                notification.Text = game.Notification.ToString();
+                                switch (game.Notification)
+                                {
+                                    case NotificationType.NONE:
+                                        NotificationLabel.Text = "";
+                                        break;
+                                    case NotificationType.CAPTURE:
+                                        NotificationLabel.Text = "Capture";
+                                        break;
+                                    case NotificationType.TRIA:
+                                        NotificationLabel.Text = "Tria";
+                                        break;
+                                    case NotificationType.TESSERA:
+                                        NotificationLabel.Text = "Tessera";
+                                        break;
+                                    case NotificationType.WIN:
+                                        NotificationLabel.Text = $"{game.Winner} Wins!";
+                                        break;
+                                }
 
-                                currentplayer = currentplayer == 0 ? 1 : 0;
+                                currentplayer = game.CurrentPlayer;
 
-                                currentPlayerName.Text = game.Players[currentplayer];
+                                currentPlayerName.Text = $"{game.Players[currentplayer]}'s Turn";
                             }
                         }
                     };
@@ -99,7 +116,7 @@ namespace Pente
         }
 
         private Game game;
-        private int currentplayer = 0;
+        private int currentplayer;
 
         private Label whiteStoneCount;
         private Label blackStoneCount;
