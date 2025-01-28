@@ -51,6 +51,17 @@ namespace Pente.Classes
 
                 switch (lineType)
                 {
+                    case LineType.WIN:
+                        Notification = NotificationType.WIN;
+                        GameOver = true;
+                        Winner = Players[currentPlayer];
+                        break;
+                    case LineType.TESSERA:
+                        Notification = NotificationType.TESSERA;
+                        break;
+                    case LineType.TRIA:
+                        Notification = NotificationType.TRIA;
+                        break;
                     case LineType.CAPTURE:
                         if (currentPlayer == 0)
                         {
@@ -74,19 +85,7 @@ namespace Pente.Classes
                             Winner = Players[1];
                         }
                         break;
-                    case LineType.TRIA:
-                        Notification = NotificationType.TRIA;
-                        break;
-                    case LineType.TESSERA:
-                        Notification = NotificationType.TESSERA;
-                        break;
-                    case LineType.WIN:
-                        Notification = NotificationType.WIN;
-                        GameOver = true;
-                        Winner = Players[currentPlayer];
-                        break;
                     default:
-                        Notification = NotificationType.NONE;
                         break;
                 }
             }

@@ -10,12 +10,26 @@ namespace Pente
         {
             InitializeComponent();
             CreateButtonGrid(19, 19);
+
+            whiteStoneCount = WhiteStoneCount;
+            blackStoneCount = BlackStoneCount;
+            currentPlayerName = CurrentPlayerName;
+            notification = NotificationLabel;
+
+
         }
 
         public void OnPlay(object sender, EventArgs e)
         {
             game = new Game("1", "2");
             UpdateBoard();
+        }
+
+        public void QuitGame(object sender, EventArgs e)
+        {
+
+                Application.Current.Quit();
+
         }
 
         private void CreateButtonGrid(int rows, int columns)
@@ -61,7 +75,16 @@ namespace Pente
                                 game.PlaceStone(currentCol, currentRow);
 
                                 UpdateBoard();
+
+
+                                whiteStoneCount.Text = "x " + game.CapturedWhite.ToString();
+                                blackStoneCount.Text = "x " + game.CapturedBlack.ToString();
+
+                                notification.Text = game.Notification.ToString();
+
                                 currentplayer = currentplayer == 0 ? 1 : 0;
+
+                                currentPlayerName.Text = game.Players[currentplayer];
                             }
                         }
                     };
@@ -77,6 +100,11 @@ namespace Pente
 
         private Game game;
         private int currentplayer = 0;
+
+        private Label whiteStoneCount;
+        private Label blackStoneCount;
+        private Label currentPlayerName;
+        private Label notification;
 
         //Check if button has an image
 
