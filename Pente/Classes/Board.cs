@@ -54,6 +54,8 @@ namespace Pente.Classes
                     xMod = -1;
                     break;
             }
+            if (x + xMod < 0 || x + xMod > 18 || y + yMod < 0 || y + yMod > 18) return new Vector2(x, y);
+            if (board[x + xMod, y + yMod] == null) return new Vector2(x, y);
 
             bool currentIsBlack = board[x, y] == true;
 
@@ -61,21 +63,25 @@ namespace Pente.Classes
             int cY = y;
             bool? checkCapture = null;
             int consecutiveCount = 0;
+            if (board[x + xMod, y + yMod] == currentIsBlack)
+            {
+                checkCapture = false;
+                consecutiveCount = 1;
+            }
+            else
+            {
+                checkCapture = true;
+            }
             do
             {
-                if (x + xMod < 0 || x + xMod > 19 || y + yMod < 0 || y + yMod > 19) return new Vector2(cX, cY);
+                if (cX + xMod < 0 || cX + xMod > 18 || cY + yMod < 0 || cY + yMod > 18) return new Vector2(cX, cY);
 
                 if (board[cX + xMod, cY + yMod] == null) return new Vector2(cX, cY);
-
-                if (checkCapture == null)
-                {
-                    checkCapture = (board[cX + xMod, cY + yMod] != currentIsBlack);
-                }
 
                 if (checkCapture == true)
                 {
                     if (consecutiveCount < 2 && board[cX + xMod, cY + yMod] != currentIsBlack) consecutiveCount++;
-                    else if (consecutiveCount == 2 && board[cX + xMod, cY + yMod] == currentIsBlack) return new Vector2(cX, cY);
+                    else if (consecutiveCount == 2 && board[cX + xMod, cY + yMod] == currentIsBlack) return new Vector2(cX + xMod, cY + yMod);
                     else return new Vector2(x, y);
                 }
 
@@ -108,7 +114,7 @@ namespace Pente.Classes
                     xMod = 1;
                     break;
             }
-            if (startX + xMod < 0 || startX + xMod > 19 || startY + yMod < 0 || startY + yMod > 19) return LineType.NONE;
+            if (startX + xMod < 0 || startX + xMod > 18 || startY + yMod < 0 || startY + yMod > 18) return LineType.NONE;
 
             if (board[startX + xMod, startY + yMod] == null) return LineType.NONE;
 
@@ -130,7 +136,7 @@ namespace Pente.Classes
 
             do
             {
-                if (startX + xMod < 0 || startX + xMod > 19 || startY + yMod < 0 || startY + yMod > 19) return LineType.NONE;
+                if (cX + xMod < 0 || cX + xMod > 18 || cY + yMod < 0 || cY + yMod > 18) return LineType.NONE;
                 if (checkCapture == true)
                 {
                     if (board[cX + xMod, cY + yMod] == null) return LineType.NONE;

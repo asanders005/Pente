@@ -12,7 +12,7 @@ namespace Pente.Classes
     {
         public Board GameBoard { get; private set; }
         public string[] Players { get; private set; }
-        public string Notification { get; set; } = "";
+        public NotificationType Notification { get; set; } = NotificationType.NONE;
         public bool GameOver { get; private set; } = false;
         public string? Winner { get; set; }
 
@@ -23,6 +23,7 @@ namespace Pente.Classes
         {
             Players = new[] { player1, player2 };
             GameBoard = new Board();
+            PlaceStone(9, 9);
         }
 
         public void PlaceStone(int x, int y)
@@ -31,8 +32,13 @@ namespace Pente.Classes
             {
                 GameBoard.PlaceStone(x, y, currentPlayer == 1);
                 CheckLines(x, y);
-                currentPlayer = currentPlayer == 0 ? 1 : 0;
+                PassTurn();
             }
+        }
+
+        public void PassTurn()
+        {
+            currentPlayer = currentPlayer == 0 ? 1 : 0;
         }
 
         public void CheckLines(int x, int y)
@@ -57,34 +63,44 @@ namespace Pente.Classes
 
                         if (CapturedBlack >= 10)
                         {
-                            Notification = "Game Over!";
+                            Notification = NotificationType.WIN;
                             GameOver = true;
                             Winner = Players[0];
                         }
                         else if (CapturedWhite >= 10)
                         {
-                            Notification = "Game Over!";
+                            Notification = NotificationType.WIN;
                             GameOver = true;
                             Winner = Players[1];
                         }
                         break;
                     case LineType.TRIA:
-                        Notification = "Tria";
+                        Notification = NotificationType.TRIA;
                         break;
                     case LineType.TESSERA:
-                        Notification = "Tessera";
+                        Notification = NotificationType.TESSERA;
                         break;
                     case LineType.WIN:
-                        Notification = "Game Over!";
+                        Notification = NotificationType.WIN;
                         GameOver = true;
                         Winner = Players[currentPlayer];
                         break;
                     default:
+                        Notification = NotificationType.NONE;
                         break;
                 }
             }
         }
 
         private int currentPlayer = 0;
+    }
+
+    public enum NotificationType
+    {
+        NONE,
+        CAPTURE,
+        TRIA,
+        TESSERA,
+        WIN
     }
 }

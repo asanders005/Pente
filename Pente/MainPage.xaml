@@ -33,6 +33,7 @@
             <Frame BorderColor="Black" CornerRadius="5" Padding="5" BackgroundColor="LightGray">
                 <Label Text="" TextColor="Black" FontSize="Medium" HorizontalOptions="Center" VerticalOptions="Center" FontFamily="JotiOne" x:Name="CurrentPlayerName" />
             </Frame>
+             <Button Text="Play" Clicked="OnPlay" x:Name="PlayButton"/>
         </VerticalStackLayout>
     </Frame>
 

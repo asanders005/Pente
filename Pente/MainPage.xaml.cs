@@ -10,7 +10,12 @@ namespace Pente
         {
             InitializeComponent();
             CreateButtonGrid(19, 19);
+        }
+
+        public void OnPlay(object sender, EventArgs e)
+        {
             game = new Game("1", "2");
+            UpdateBoard();
         }
 
         private void CreateButtonGrid(int rows, int columns)
@@ -49,7 +54,7 @@ namespace Pente
                     // Add click event handler (optional)
                     button.Clicked += (s, e) =>
                     {
-                        if (IsButtonEmpty(button))
+                        if (IsButtonEmpty(button) && game != null)
                         {
                             if (!game.GameOver)
                             {
@@ -91,11 +96,11 @@ namespace Pente
                 for (int col = 0; col < 19; col++)
                 {
                     var button = (ImageButton)GameGrid.Children.Single(b => Grid.GetRow((BindableObject)b) == row && Grid.GetColumn((BindableObject)b) == col);
-                    if (game.GameBoard.board[col, row] == true)
+                    if (game.GameBoard.board[col, row] == false)
                     {
                         button.Source = "white.png";
                     }
-                    else if (game.GameBoard.board[col, row] == false)
+                    else if (game.GameBoard.board[col, row] == true)
                     {
                         button.Source = "black.png";
                     }
