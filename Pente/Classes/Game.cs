@@ -74,7 +74,6 @@ namespace Pente.Classes
                             GameOver = true;
                             Winner = Players[CurrentPlayer];
                             lineChecked = true;
-                            return;
                         }
                         break;
                     default:
@@ -104,16 +103,16 @@ namespace Pente.Classes
                         Notification = NotificationType.WIN;
                         GameOver = true;
                         Winner = Players[0];
-                        return;
                     }
                     else if (CapturedWhite >= 10)
                     {
                         Notification = NotificationType.WIN;
                         GameOver = true;
                         Winner = Players[1];
-                        return;
                     }
                 }
+
+                if (Notification == NotificationType.WIN) return;
             }
         }
     }
