@@ -16,7 +16,7 @@ namespace Pente.Classes
 
         public Board()
         {
-            board = new bool?[19,19];
+            board = new bool?[19, 19];
         }
 
         public void PlaceStone(int x, int y, bool isBlack)
@@ -33,7 +33,7 @@ namespace Pente.Classes
             return 0;
         }
 
-        public Vector2 GetLineStart(int x, int y, LineDirection lineDirection)
+        public Vector2 GetLineStart(int x, int y, LineDirection lineDirection, bool checkCapture = false)
         {
             int xMod = 0;
             int yMod = 0;
@@ -61,17 +61,7 @@ namespace Pente.Classes
 
             int cX = x;
             int cY = y;
-            bool? checkCapture = null;
-            int consecutiveCount = 0;
-            if (board[x + xMod, y + yMod] == currentIsBlack)
-            {
-                checkCapture = false;
-                consecutiveCount = 1;
-            }
-            else
-            {
-                checkCapture = true;
-            }
+            int consecutiveCount = (checkCapture) ? 0 : 1;
             do
             {
                 if (cX + xMod < 0 || cX + xMod > 18 || cY + yMod < 0 || cY + yMod > 18) return new Vector2(cX, cY);
@@ -119,60 +109,85 @@ namespace Pente.Classes
             if (board[startX + xMod, startY + yMod] == null) return LineType.NONE;
 
             bool currentIsBlack = board[startX, startY] == true;
-            bool? checkCapture = null;
             Vector2[] capCoords = new Vector2[2];
             int cX = startX, cY = startY;
-            int currentCount = 0;
-
-            if (board[startX + xMod, startY + yMod] == currentIsBlack)
-            {
-                checkCapture = false;
-                currentCount = 1;
-            }
-            else
-            {
-                checkCapture = true;
-            }
+            int currentCount = 1;
 
             do
             {
                 if (cX + xMod < 0 || cX + xMod > 18 || cY + yMod < 0 || cY + yMod > 18) return LineType.NONE;
-                if (checkCapture == true)
+
+                if (board[cX + xMod, cY + yMod] == currentIsBlack && currentCount < 5) currentCount++;
+                else
                 {
-                    if (board[cX + xMod, cY + yMod] == null) return LineType.NONE;
-                    if (board[cX + xMod, cY + yMod] != currentIsBlack && currentCount < 2)
+                    switch (currentCount)
                     {
-                        capCoords[currentCount] = new Vector2(cX + xMod, cY + yMod);
-                        currentCount++;
-                    }
-                    else if (board[cX + xMod, cY + yMod] == currentIsBlack && currentCount == 2)
-                    {
-                        foreach(var coordinate in capCoords)
-                        {
-                            RemoveStone((int)coordinate.X, (int)coordinate.Y);
-                        }
-                        return LineType.CAPTURE;
-                    }
-                    else return LineType.NONE;
-                }
-                else if (checkCapture == false)
-                {
-                    if (board[cX + xMod, cY + yMod] == currentIsBlack && currentCount < 5) currentCount++;
-                    else
-                    {
-                        switch (currentCount)
-                        {
-                            case 3:
-                                return LineType.TRIA;
-                            case 4:
-                                return LineType.TESSERA;
-                            case 5:
-                                return LineType.WIN;
-                            default:
-                                return LineType.NONE;
-                        }
+                        case 3:
+                            return LineType.TRIA;
+                        case 4:
+                            return LineType.TESSERA;
+                        case 5:
+                            return LineType.WIN;
+                        default:
+                            return LineType.NONE;
                     }
                 }
+
+                cX += xMod;
+                cY += yMod;
+            } while (true);
+        }
+
+        public bool CheckCapture(int startX, int startY, LineDirection lineDirection)
+        {
+            if (board[startX, startY] == null) return false;
+
+            int xMod = 0, yMod = 0;
+            switch (lineDirection)
+            {
+                case LineDirection.DIAGONAL_DOWN:
+                    xMod = 1;
+                    yMod = 1;
+                    break;
+                case LineDirection.DIAGONAL_UP:
+                    xMod = 1;
+                    yMod = -1;
+                    break;
+                case LineDirection.VERTICAL:
+                    yMod = 1;
+                    break;
+                case LineDirection.HORIZONTAL:
+                    xMod = 1;
+                    break;
+            }
+            if (startX + xMod < 0 || startX + xMod > 18 || startY + yMod < 0 || startY + yMod > 18) return false;
+
+            if (board[startX + xMod, startY + yMod] == null) return false;
+
+            bool currentIsBlack = board[startX, startY] == true;
+            Vector2[] capCoords = new Vector2[2];
+            int cX = startX, cY = startY;
+            int currentCount = 0;
+
+            do
+            {
+                if (cX + xMod < 0 || cX + xMod > 18 || cY + yMod < 0 || cY + yMod > 18) return false;
+
+                if (board[cX + xMod, cY + yMod] == null) return false;
+                if (board[cX + xMod, cY + yMod] != currentIsBlack && currentCount < 2)
+                {
+                    capCoords[currentCount] = new Vector2(cX + xMod, cY + yMod);
+                    currentCount++;
+                }
+                else if (board[cX + xMod, cY + yMod] == currentIsBlack && currentCount == 2)
+                {
+                    foreach (var coordinate in capCoords)
+                    {
+                        RemoveStone((int)coordinate.X, (int)coordinate.Y);
+                    }
+                    return true;
+                }
+                else return false;
 
                 cX += xMod;
                 cY += yMod;
@@ -196,7 +211,6 @@ namespace Pente.Classes
     public enum LineType
     {
         NONE,
-        CAPTURE,
         TRIA,
         TESSERA,
         WIN

@@ -53,38 +53,15 @@ namespace Pente.Classes
 
                 switch (lineType)
                 {
-                    case LineType.CAPTURE:
-                        if (CurrentPlayer == 0)
-                        {
-                            CapturedBlack += 2;
-                        }
-                        else
-                        {
-                            CapturedWhite += 2;
-                        }
-
-                        if (CapturedBlack >= 10)
-                        {
-                            Notification = NotificationType.WIN;
-                            GameOver = true;
-                            Winner = Players[0];
-                        }
-                        else if (CapturedWhite >= 10)
-                        {
-                            Notification = NotificationType.WIN;
-                            GameOver = true;
-                            Winner = Players[1];
-                        }
-                        break;
                     case LineType.TRIA:
-                        if (!lineChecked || Notification == NotificationType.NONE || Notification == NotificationType.CAPTURE)
+                        if (!lineChecked || Notification == NotificationType.NONE)
                         {
                             Notification = NotificationType.TRIA;
                             lineChecked = true;
                         }
                         break;
                     case LineType.TESSERA:
-                        if (!lineChecked || Notification == NotificationType.NONE || Notification == NotificationType.CAPTURE || Notification == NotificationType.TRIA)
+                        if (!lineChecked || Notification == NotificationType.NONE || Notification == NotificationType.TRIA)
                         {
                             Notification = NotificationType.TESSERA;
                             lineChecked = true;
@@ -97,6 +74,7 @@ namespace Pente.Classes
                             GameOver = true;
                             Winner = Players[CurrentPlayer];
                             lineChecked = true;
+                            return;
                         }
                         break;
                     default:
@@ -106,6 +84,36 @@ namespace Pente.Classes
                         }
                         break;
                 }
+
+                lineStart = GameBoard.GetLineStart(x, y, lineToCheck, true);
+                bool captureStones = GameBoard.CheckCapture((int)lineStart.X, (int)lineStart.Y, lineToCheck);
+
+                if (captureStones)
+                {
+                    if (CurrentPlayer == 0)
+                    {
+                        CapturedBlack += 2;
+                    }
+                    else
+                    {
+                        CapturedWhite += 2;
+                    }
+
+                    if (CapturedBlack >= 10)
+                    {
+                        Notification = NotificationType.WIN;
+                        GameOver = true;
+                        Winner = Players[0];
+                        return;
+                    }
+                    else if (CapturedWhite >= 10)
+                    {
+                        Notification = NotificationType.WIN;
+                        GameOver = true;
+                        Winner = Players[1];
+                        return;
+                    }
+                }
             }
         }
     }
@@ -113,7 +121,6 @@ namespace Pente.Classes
     public enum NotificationType
     {
         NONE,
-        CAPTURE,
         TRIA,
         TESSERA,
         WIN

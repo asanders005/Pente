@@ -21,7 +21,7 @@ namespace Pente
 
         public void OnPlay(object sender, EventArgs e)
         {
-            game = new Game("1", "2");
+            game = new Game("Player 1", "Player 2");
             currentplayer = game.CurrentPlayer;
             currentPlayerName.Text = $"{game.Players[currentplayer]}'s Turn";
             UpdateBoard();
@@ -84,9 +84,6 @@ namespace Pente
                                 {
                                     case NotificationType.NONE:
                                         NotificationLabel.Text = "";
-                                        break;
-                                    case NotificationType.CAPTURE:
-                                        NotificationLabel.Text = "Capture";
                                         break;
                                     case NotificationType.TRIA:
                                         NotificationLabel.Text = "Tria";
