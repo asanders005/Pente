@@ -9,6 +9,7 @@
 
             <!-- Top Section -->
             <Frame BorderColor="Black" CornerRadius="10" Padding="10">
+                
                 <Label Text="" FontSize="Large" x:Name="NotificationLabel" FontFamily="JotiOne" TextColor="White" HorizontalOptions="Center"/>
             </Frame>
 
@@ -31,7 +32,7 @@
                             <!--Stone Section-->
                             <VerticalStackLayout>
 
-                                <Label x:Name="CaptureStone" Text="Capture Stones "/>
+                                <Label x:Name="CaptureStone" Text="Captured Stones"/>
 
 
 
@@ -54,18 +55,18 @@
                             </VerticalStackLayout>
 
                             <HorizontalStackLayout x:Name="PlayerIformarion">
-                                <Frame BorderColor="Black" CornerRadius="10" Padding="10" BackgroundColor="IndianRed">
+                                <Frame BorderColor="Black" CornerRadius="10" Padding="10" Margin="30" BackgroundColor="IndianRed">
                                     <VerticalStackLayout Spacing="20" HorizontalOptions="Center">
                                         <HorizontalStackLayout Spacing="5" HorizontalOptions="Center" VerticalOptions="Center">
                                             <Frame BorderColor="Black" CornerRadius="5" Padding="5" BackgroundColor="LightGray">
-
-                                                <Label Text="" FontSize="Medium" FontFamily="JotiOne" TextColor="Black" x:Name="Player1Name" />
+                                                <Entry Placeholder="Player 1" Text="" WidthRequest="100" FontSize="Medium" FontFamily="JotiOne" TextColor="Black" x:Name="Player1NameEntry" />
                                             </Frame>
-                                            <Frame BorderColor="Black" CornerRadius="5" Padding="5" BackgroundColor="LightGray">
+                                            <Frame BorderColor="Black"  CornerRadius="5" Padding="5" BackgroundColor="LightGray">
                                                 <Label Text="versus" FontSize="Small" FontFamily="JotiOne" TextColor="Black" />
                                             </Frame>
                                             <Frame BorderColor="Black" CornerRadius="5" Padding="5" BackgroundColor="LightGray">
-                                                <Label Text="" FontSize="Medium" FontFamily="JotiOne" TextColor="Black" x:Name="Player2Name"  />
+                                                <Entry Placeholder="Player 2"  WidthRequest="100" Text="" FontSize="Medium" FontFamily="JotiOne" TextColor="Black" x:Name="Player2NameEntry" />
+                                                
                                             </Frame>
                                         </HorizontalStackLayout>
 
@@ -77,7 +78,12 @@
 
                             </HorizontalStackLayout>
 
-                            <HorizontalStackLayout>
+                            <VerticalStackLayout Padding="30" Margin="50">
+                                <Label x:Name="TimerTitle" Text="Timer: " FontSize="Large" TextColor="White" />
+                                <Label x:Name="TimerLabel" FontSize="Large" Text="" TextColor="White" />
+                            </VerticalStackLayout>
+
+                            <HorizontalStackLayout Margin="30" Spacing="50" VerticalOptions="End">
                                 <Button Text="New Game" Clicked="OnPlay" x:Name="PlayButton"/>
                                 <Button Text="Quit" Clicked="QuitGame" x:Name="QuitButton"/>
                             </HorizontalStackLayout>

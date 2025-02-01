@@ -1,27 +1,72 @@
 ﻿using Pente.Classes;
+using System.Diagnostics;
+using System.Timers;
 
 namespace Pente
 {
     public partial class MainPage : ContentPage
     {
-        int count = 0;
+        int timerCount = 0;
+
+        IDispatcherTimer timer;
 
         public MainPage()
         {
             InitializeComponent();
             CreateButtonGrid(19, 19);
 
+            
             whiteStoneCount = WhiteStoneCount;
             blackStoneCount = BlackStoneCount;
             currentPlayerName = CurrentPlayerName;
             notification = NotificationLabel;
-
+            timerlabel = TimerLabel;
 
         }
 
         public void OnPlay(object sender, EventArgs e)
         {
-            game = new Game("Player 1", "Player 2");
+            if (string.IsNullOrWhiteSpace(Player1NameEntry.Text))
+            {
+                Player1NameEntry.Text = "Player 1";
+            }
+
+            if (string.IsNullOrWhiteSpace(Player2NameEntry.Text))
+            {
+                Player2NameEntry.Text = "Player 2";
+            }
+
+            Player1NameEntry.IsEnabled = false;
+            Player2NameEntry.IsEnabled = false;
+
+            timer = Application.Current.Dispatcher.CreateTimer();
+            timer.Interval = TimeSpan.FromSeconds(1);
+            timer.Tick += (s, e) =>
+            {
+                timerCount++;
+
+                if (game.ResetTimer)
+                {
+                    timerCount = 0;
+                    game.ResetTimer = false;
+                }
+
+                if (timerCount == 30)
+                {
+                    NotificationLabel.Text = "Your turn is about to be forfeit";
+                }
+
+                if (timerCount == 35)
+                {
+                    game.PassTurn();
+                    currentPlayerName.Text = $"{game.Players[game.CurrentPlayer]}'s Turn";
+                    NotificationLabel.Text = "";
+                };
+
+                timerlabel.Text = timerCount.ToString() + " secs";
+            };
+            timer.Start();
+            game = new Game(Player1NameEntry.Text,Player2NameEntry.Text);
             currentplayer = game.CurrentPlayer;
             currentPlayerName.Text = $"{game.Players[currentplayer]}'s Turn";
             UpdateBoard();
@@ -29,6 +74,7 @@ namespace Pente
 
         public void QuitGame(object sender, EventArgs e)
         {
+            timer.Stop();
             Application.Current.Quit();
         }
 
@@ -93,6 +139,9 @@ namespace Pente
                                         break;
                                     case NotificationType.WIN:
                                         NotificationLabel.Text = $"{game.Winner} Wins!";
+                                        timer.Stop();
+                                        Player1NameEntry.IsEnabled = true;
+                                        Player2NameEntry.IsEnabled = true;
                                         break;
                                 }
 
@@ -119,6 +168,7 @@ namespace Pente
         private Label blackStoneCount;
         private Label currentPlayerName;
         private Label notification;
+        private Label timerlabel;
 
         //Check if button has an image
 

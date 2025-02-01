@@ -20,6 +20,8 @@ namespace Pente.Classes
         public int CapturedWhite { get; private set; } = 0;
         public int CapturedBlack { get; private set; } = 0;
 
+        public bool ResetTimer { get; set; } = false;
+
         public Game(string player1, string player2)
         {
             Players = new[] { player1, player2 };
@@ -39,6 +41,7 @@ namespace Pente.Classes
 
         public void PassTurn()
         {
+            ResetTimer = true;
             CurrentPlayer = CurrentPlayer == 0 ? 1 : 0;
         }
 
