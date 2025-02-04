@@ -22,6 +22,10 @@ namespace Pente
             notification = NotificationLabel;
             timerlabel = TimerLabel;
 
+            notification.Text = "Pente Game";
+
+            timer = Application.Current.Dispatcher.CreateTimer();
+            timer.Interval = TimeSpan.FromSeconds(0.5);
         }
 
         public void OnPlay(object sender, EventArgs e)
@@ -38,9 +42,6 @@ namespace Pente
 
             Player1NameEntry.IsEnabled = false;
             Player2NameEntry.IsEnabled = false;
-
-            timer = Application.Current.Dispatcher.CreateTimer();
-            timer.Interval = TimeSpan.FromSeconds(1);
             timer.Tick += (s, e) =>
             {
                 timerCount++;
@@ -103,8 +104,8 @@ namespace Pente
                         HorizontalOptions = LayoutOptions.Center,
                         VerticalOptions = LayoutOptions.Center,
                         BackgroundColor = Colors.Transparent,
-                        WidthRequest = 75,
-                        HeightRequest = 75,
+                        WidthRequest = 80,
+                        HeightRequest = 80,
                         Opacity = 1,
                         Margin = 1
                     };
@@ -139,6 +140,7 @@ namespace Pente
                                         break;
                                     case NotificationType.WIN:
                                         NotificationLabel.Text = $"{game.Winner} Wins!";
+                                        timerCount = 0;
                                         timer.Stop();
                                         Player1NameEntry.IsEnabled = true;
                                         Player2NameEntry.IsEnabled = true;

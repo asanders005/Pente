@@ -1,98 +1,111 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Pente.MainPage">
-
+             x:Class="Pente.MainPage"
+             BackgroundColor="White">
 
     <ScrollView>
-        <VerticalStackLayout Padding="30" Spacing="20">
+        <VerticalStackLayout Padding="20" Spacing="15">
 
-            <!-- Top Section -->
-            <Frame BorderColor="Black" CornerRadius="10" Padding="10">
-                
-                <Label Text="" FontSize="Large" x:Name="NotificationLabel" FontFamily="JotiOne" TextColor="White" HorizontalOptions="Center"/>
+            <!-- 🏆 Game Notification -->
+            <Frame BackgroundColor="#F0F0F0" CornerRadius="10" Padding="12"
+                   BorderColor="#D1D1D1" HasShadow="True">
+                <Label Text="Welcome to Pente!" FontSize="32" 
+                       x:Name="NotificationLabel" FontFamily="Georgia" 
+                       TextColor="Black" HorizontalOptions="Center"/>
             </Frame>
 
-            <!-- Pyramid and Side Buttons Section -->
-            <Frame BorderColor="Black" CornerRadius="10" Padding="10">
-                <Grid ColumnDefinitions="2*, 1*" RowDefinitions="Auto">
+            <!--Game Board-->
+            <Frame CornerRadius="10" Padding="10" BorderColor="#D1D1D1" BackgroundColor="WhiteSmoke">
+                <Grid ColumnDefinitions="2*, 1*" RowDefinitions="Auto" BackgroundColor="White">
 
                     <Image Grid.Column="0" Source="board.png" Aspect="AspectFill" Opacity="100" WidthRequest="775" HeightRequest="775"/>
+
                     <!-- Grid Section -->
                     <Grid Grid.Column="0" BackgroundColor="Transparent"  x:Name="GameGrid" HeightRequest="650" WidthRequest="650">
 
                     </Grid>
 
+                    <!-- 📋 Side Panel -->
+                    <Grid Grid.Column="1" Padding="10">
+                        <VerticalStackLayout Spacing="15">
 
-
-                    <!-- Left Section -->
-                    <Frame Grid.Column="1" BorderColor="Black" CornerRadius="10" Padding="5">
-                        <VerticalStackLayout Grid.Column="1" x:Name="stone" >
-
-                            <!--Stone Section-->
-                            <VerticalStackLayout>
-
-                                <Label x:Name="CaptureStone" Text="Captured Stones"/>
-
-
-
-                                <HorizontalStackLayout x:Name="StoneView">
-
-                                    <HorizontalStackLayout x:Name="WhiteStoneLayout">
-                                        <Image Source="white.png" HeightRequest="50" WidthRequest="50"/>
-                                        <Label x:Name="WhiteStoneCount" Text="x 0" FontSize="Large" FontFamily="JotiOne" TextColor="White"/>
-
-                                    </HorizontalStackLayout>
-
-                                    <HorizontalStackLayout x:Name="BlackStoneLayout">
-                                        <Image Source="black.png" HeightRequest="50" WidthRequest="50"/>
-                                        <Label x:Name="BlackStoneCount" Text="x 0" FontSize="Large" FontFamily="JotiOne" TextColor="White"/>
-
-                                    </HorizontalStackLayout>
-
-                                </HorizontalStackLayout>
-
-                            </VerticalStackLayout>
-
-                            <HorizontalStackLayout x:Name="PlayerIformarion">
-                                <Frame BorderColor="Black" CornerRadius="10" Padding="10" Margin="30" BackgroundColor="IndianRed">
-                                    <VerticalStackLayout Spacing="20" HorizontalOptions="Center">
-                                        <HorizontalStackLayout Spacing="5" HorizontalOptions="Center" VerticalOptions="Center">
-                                            <Frame BorderColor="Black" CornerRadius="5" Padding="5" BackgroundColor="LightGray">
-                                                <Entry Placeholder="Player 1" Text="" WidthRequest="100" FontSize="Medium" FontFamily="JotiOne" TextColor="Black" x:Name="Player1NameEntry" />
-                                            </Frame>
-                                            <Frame BorderColor="Black"  CornerRadius="5" Padding="5" BackgroundColor="LightGray">
-                                                <Label Text="versus" FontSize="Small" FontFamily="JotiOne" TextColor="Black" />
-                                            </Frame>
-                                            <Frame BorderColor="Black" CornerRadius="5" Padding="5" BackgroundColor="LightGray">
-                                                <Entry Placeholder="Player 2"  WidthRequest="100" Text="" FontSize="Medium" FontFamily="JotiOne" TextColor="Black" x:Name="Player2NameEntry" />
-                                                
-                                            </Frame>
+                            <!-- 🏁 Captured Stones -->
+                            <Frame BackgroundColor="WhiteSmoke" Padding="10" CornerRadius="10" BorderColor="#D1D1D1" HasShadow="True">
+                                <VerticalStackLayout>
+                                    <Label Text="Captured Stones" FontSize="18" TextColor="Black" FontFamily="Georgia" HorizontalOptions="Center"/>
+                                    <HorizontalStackLayout HorizontalOptions="Center" Spacing="20">
+                                        
+                                        <HorizontalStackLayout>
+                                            <Image Source="white.png" HeightRequest="40" WidthRequest="40"/>
+                                            <Label x:Name="WhiteStoneCount" Text="x 0" FontSize="25" 
+                                                   FontFamily="Georgia" TextColor="Black"/>
                                         </HorizontalStackLayout>
 
-                                        <Frame BorderColor="Black" CornerRadius="5" Padding="5" BackgroundColor="LightGray">
-                                            <Label Text="" TextColor="Black" FontSize="Medium" HorizontalOptions="Center" VerticalOptions="Center" FontFamily="JotiOne" x:Name="CurrentPlayerName" />
-                                        </Frame>
-                                    </VerticalStackLayout>
-                                </Frame>
+                                        <HorizontalStackLayout>
+                                            <Image Source="black.png" HeightRequest="40" WidthRequest="40"/>
+                                            <Label x:Name="BlackStoneCount" Text="x 0" FontSize="25" 
+                                                   FontFamily="Georgia" TextColor="Black"/>
+                                        </HorizontalStackLayout>
+                                        
+                                    </HorizontalStackLayout>
+                                </VerticalStackLayout>
+                            </Frame>
 
-                            </HorizontalStackLayout>
+                            <!-- 👥 Player Names -->
+                            <Frame BackgroundColor="WhiteSmoke" Padding="10" CornerRadius="10" 
+                                   BorderColor="#D1D1D1" HasShadow="True">
+                                <HorizontalStackLayout HorizontalOptions="Center" Spacing="15">
+                                    <Frame BackgroundColor="White" CornerRadius="5" Padding="5">
+                                        <Entry Placeholder="Player 1" WidthRequest="110" 
+                                               FontSize="Medium" FontFamily="Georgia" 
+                                               TextColor="Black" x:Name="Player1NameEntry"/>
+                                    </Frame>
 
-                            <VerticalStackLayout Padding="30" Margin="50">
-                                <Label x:Name="TimerTitle" Text="Timer: " FontSize="Large" TextColor="White" />
-                                <Label x:Name="TimerLabel" FontSize="Large" Text="" TextColor="White" />
-                            </VerticalStackLayout>
+                                    <Label Text="vs" FontSize="18" TextColor="Black" 
+                                           FontFamily="Georgia" VerticalOptions="Center"/>
 
-                            <HorizontalStackLayout Margin="30" Spacing="50" VerticalOptions="End">
-                                <Button Text="New Game" Clicked="OnPlay" x:Name="PlayButton"/>
-                                <Button Text="Quit" Clicked="QuitGame" x:Name="QuitButton"/>
+                                    <Frame BackgroundColor="White" CornerRadius="5" Padding="5">
+                                        <Entry Placeholder="Player 2" WidthRequest="110" 
+                                               FontSize="Medium" FontFamily="Georgia" 
+                                               TextColor="Black" x:Name="Player2NameEntry"/>
+                                    </Frame>
+                                </HorizontalStackLayout>
+                            </Frame>
+
+                            <!-- 🔄 Current Player Indicator -->
+                            <Label x:Name="CurrentPlayerName" Text="Current Turn: Player 1" 
+                                   FontSize="18" TextColor="Black" 
+                                   HorizontalOptions="Center" FontFamily="Georgia"/>
+
+                            <!-- ⏳ Timer -->
+                            <Frame BackgroundColor="WhiteSmoke" Padding="10" CornerRadius="10"
+                                   BorderColor="#D1D1D1" HasShadow="True">
+                                <VerticalStackLayout>
+                                    <Label Text="Timer" FontSize="16" TextColor="Black" HorizontalOptions="Center"/>
+                                    <Label x:Name="TimerLabel" FontSize="18" Text="0" TextColor="DarkRed" 
+                                           FontAttributes="Bold" HorizontalOptions="Center"/>
+                                </VerticalStackLayout>
+                            </Frame>
+
+                            <!-- 🎮 Buttons -->
+                            <HorizontalStackLayout HorizontalOptions="Center" Spacing="20">
+                                <Button Text="New Game" Clicked="OnPlay" x:Name="PlayButton"
+                                        WidthRequest="160" FontSize="16" 
+                                        TextColor="White" BackgroundColor="#1E88E5"
+                                        CornerRadius="8" FontFamily="Georgia"/>
+
+                                <Button Text="Quit" Clicked="QuitGame" x:Name="QuitButton"
+                                        WidthRequest="160" FontSize="16"
+                                        TextColor="White" BackgroundColor="#D32F2F"
+                                        CornerRadius="8" FontFamily="Georgia"/>
                             </HorizontalStackLayout>
 
                         </VerticalStackLayout>
-                    </Frame>
+                    </Grid>
+
                 </Grid>
             </Frame>
         </VerticalStackLayout>
     </ScrollView>
-
 </ContentPage>
