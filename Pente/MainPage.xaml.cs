@@ -71,6 +71,9 @@ namespace Pente
             game = new Game(Player1NameEntry.Text,Player2NameEntry.Text);
             currentplayer = game.CurrentPlayer;
             currentPlayerName.Text = $"{game.Players[currentplayer]}'s Turn";
+            notification.Text = "";
+            whiteStoneCount.Text = "x " + game.CapturedWhite.ToString();
+            blackStoneCount.Text = "x " + game.CapturedBlack.ToString();
             UpdateBoard();
         }
 
