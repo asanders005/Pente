@@ -24,8 +24,6 @@ namespace Pente
 
             notification.Text = "Pente Game";
 
-            timer = Application.Current.Dispatcher.CreateTimer();
-            timer.Interval = TimeSpan.FromSeconds(0.5);
         }
 
         public void OnPlay(object sender, EventArgs e)
@@ -42,6 +40,9 @@ namespace Pente
 
             Player1NameEntry.IsEnabled = false;
             Player2NameEntry.IsEnabled = false;
+
+            timer = Application.Current.Dispatcher.CreateTimer();
+            timer.Interval = TimeSpan.FromSeconds(1);
             timer.Tick += (s, e) =>
             {
                 timerCount++;
