@@ -76,7 +76,11 @@ namespace Pente
 
         public void QuitGame(object sender, EventArgs e)
         {
-            timer.Stop();
+            if(timer != null)
+            {
+                timer.Stop();
+            }
+
             Application.Current.Quit();
         }
 
